@@ -46,7 +46,9 @@ public class Projectile : MonoBehaviour
                 obs.StartDestruction(Vector3.Distance(item.transform.position, transform.position));
             }
         }
-
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.angularVelocity = Vector3.zero;
+        transform.eulerAngles = Vector3.zero;
         gameObject.SetActive(false);
     }
 }
