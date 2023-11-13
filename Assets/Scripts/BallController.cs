@@ -125,7 +125,7 @@ public class BallController : MonoBehaviour
         if (Vector3.Distance(transform.position, doorController.transform.position) <= 5)
         {
             doorController.OpenDoor();
-            transform.DOJump(transform.position + transform.forward * 7, 2, 2,
+            transform.DOJump(transform.position + transform.forward * 7, 4, 2,
                 1).SetDelay(1).OnComplete(Win);
         }
         else if (Physics.BoxCast(transform.position, Vector3.forward * radiusBall, transform.forward,
@@ -135,15 +135,22 @@ public class BallController : MonoBehaviour
         {
             if (hitInfo.distance > distanceToObstacle)
             {
-                transform.DOJump(transform.position + transform.forward * (hitInfo.distance - distanceToObstacle), 3, 2,
-                    1);
+                if (hitInfo.distance - distanceToObstacle > 0.3f)
+                    transform.DOJump(transform.position + transform.forward * (hitInfo.distance - distanceToObstacle),
+                        3, 2,
+                        1);
             }
         }
         else
         {
-            doorController.OpenDoor();
-            transform.DOJump(doorController.transform.position + transform.forward * 2, 2, 2,
-                2).SetDelay(1).OnComplete(Win);
+            transform.DOJump(doorController.transform.position + transform.forward * 2, 4, 2,
+                2).SetDelay(1).OnComplete(Win).OnUpdate(delegate
+            {
+                if (Vector3.Distance(transform.position, doorController.transform.position) <= 5)
+                {
+                    doorController.OpenDoor();
+                }
+            });
         }
     }
 
